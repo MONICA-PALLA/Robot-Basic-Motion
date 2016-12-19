@@ -1,0 +1,114 @@
+int RightEncoderPinB=1;
+int RightEncoderPinA=2;
+int LeftEncoderPinB=4;
+int LeftEncoderPinA=3;
+
+
+int  motor1 = 8;
+int  motor11 = 9;
+int  motor2 = 6;
+int  motor22 = 7; 
+volatile unsigned long OldLPos;
+volatile unsigned long OldRPos;
+volatile unsigned long NewLPos;
+volatile unsigned long NewRPos;
+ volatile unsigned long RightEncoderPos;
+volatile unsigned long LeftEncoderPos;
+volatile unsigned long LdVal;
+volatile unsigned long RdVal;
+volatile unsigned long leftvelocity;
+volatile unsigned long rightvelocity;
+volatile unsigned long LangVel;
+volatile unsigned long RangVel;
+void setup()
+{ pinMode(motor1, OUTPUT);     
+  pinMode(motor11,OUTPUT);
+  pinMode(motor2,OUTPUT);
+  pinMode(motor22,OUTPUT);
+  Serial.begin(9600);
+  attachInterrupt(0, LeftEncoderEvent, CHANGE);
+  attachInterrupt(1, RightEncoderEvent, CHANGE);
+}
+
+void loop()
+{
+  
+digitalWrite(motor1,HIGH);
+         digitalWrite(motor11, LOW);   
+     
+
+         digitalWrite(motor2,HIGH); 
+         digitalWrite(motor22,LOW);
+
+  GetSpeeds();
+ 
+  
+  Serial.print("Left Velocity: ");
+  Serial.print(leftvelocity);
+ 
+  Serial.print("Right Velocity: ");
+  Serial.print(rightvelocity);
+ 
+ 
+  delay (500);
+ 
+}
+void GetSpeeds()
+{
+	
+	OldLPos = LeftEncoderPos;
+        OldRPos = RightEncoderPos;
+	delay(100);
+	NewLPos = LeftEncoderPos;
+        NewRPos = RightEncoderPos;
+ 
+	
+		LdVal = (NewLPos - OldLPos)  * 10;
+  
+		RdVal = (NewRPos - OldRPos)  * 10;
+ 
+	
+	 LangVel = LdVal /  WHEEL_TICKS;
+	leftvelocity = (LangVel * WHEEL_CIRCUMFERENCE);
+ 
+         RangVel = RdVal /  WHEEL_TICKS;
+  	rightvelocity = (RangVel * WHEEL_CIRCUMFERENCE);
+}
+
+void LeftEncoderEvent()
+{
+  
+  if (digitalRead(LeftEncoderPinA) == HIGH)
+  {
+    if (digitalRead(LeftEncoderPinB) == LOW)
+      LeftEncoderPos++;
+    else
+      LeftEncoderPos--;
+  }
+  else
+  { 
+    if (digitalRead(LeftEncoderPinB) == LOW)
+      LeftEncoderPos--;
+    else
+      LeftEncoderPos++;
+  }
+}
+ 
+void RightEncoderEvent()
+{
+  
+  if (digitalRead(RightEncoderPinA) == HIGH)
+  {
+    if (digitalRead(RightEncoderPinB) == LOW)
+      RightEncoderPos++;
+    else
+      RightEncoderPos--;
+  }
+  else
+  { 
+    if (digitalRead(RightEncoderPinB) == LOW)
+      RightEncoderPos--;
+    else
+      RightEncoderPos++;
+  }
+}

@@ -1,0 +1,82 @@
+int LeftEncoderPinA =2;
+int RightEncoderPinA= 3;
+int LeftEncoderPinB=1;
+int RightEncoderPinB= 4;
+int  motor1 = 8;
+int  motor11 = 9;
+int  motor2 = 6;
+int  motor22 = 7; 
+volatile unsigned int LeftEncoderPos;
+volatile unsigned int RightEncoderPos;
+ 
+void setup()
+{ pinMode(motor1, OUTPUT);     
+  pinMode(motor11,OUTPUT);
+  pinMode(motor2,OUTPUT);
+  pinMode(motor22,OUTPUT);
+  Serial.begin(9600);
+  attachInterrupt(0, LeftEncoderEvent, CHANGE);
+  attachInterrupt(1, RightEncoderEvent, CHANGE);
+}
+void loop()
+{ int i; 
+    //for(i=0;i<=0;i++)
+    //{
+    
+    
+         digitalWrite(motor1,HIGH);
+         digitalWrite(motor11, LOW);   
+     
+ //       delay(1000);
+     //    digitalWrite(motor2,HIGH); 
+   //      digitalWrite(motor22,LOW);
+ //    delay(10);
+     
+    
+  Serial.print("Left Position: ");
+  Serial.println(LeftEncoderPos);
+ 
+  Serial.print("Right Position: ");
+  Serial.println(RightEncoderPos);  
+delay(1000);
+return ;
+}
+//}
+ 
+void LeftEncoderEvent()
+{
+  
+  if (digitalRead(LeftEncoderPinA) == HIGH)
+  {
+    if (digitalRead(LeftEncoderPinB) == LOW)
+      LeftEncoderPos++;
+    else
+      LeftEncoderPos--;
+  }
+  else
+  { 
+    if (digitalRead(LeftEncoderPinB) == LOW)
+      LeftEncoderPos--;
+    else
+      LeftEncoderPos++;
+  }
+}
+ 
+void RightEncoderEvent()
+{
+  
+  if (digitalRead(RightEncoderPinA) == HIGH)
+  {
+    if (digitalRead(RightEncoderPinB) == LOW)
+      RightEncoderPos++;
+    else
+      RightEncoderPos--;
+  }
+  else
+  { 
+    if (digitalRead(RightEncoderPinB) == LOW)
+      RightEncoderPos--;
+    else
+      RightEncoderPos++;
+  }
+}

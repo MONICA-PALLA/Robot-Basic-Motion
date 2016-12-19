@@ -1,0 +1,16 @@
+void reverse(double distance)
+{
+delay(600);
+digitalWrite(motor1,LOW);
+         digitalWrite(motor11, HIGH);   
+     
+   //       delay(10);
+         digitalWrite(motor2,LOW); 
+         digitalWrite(motor22,HIGH);
+GetSpeeds();
+unsigned long  avgvelocity=(leftvelocity+rightvelocity)/2;
+double time =distance/(double)avgvelocity;
+time = time * 1000;
+         
+delay((unsigned long) time-100);
+}

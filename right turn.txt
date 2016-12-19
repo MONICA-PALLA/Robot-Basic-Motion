@@ -1,0 +1,31 @@
+void rightturn(int degree)
+{unsigned long k;
+LeftEncoderPos=0;
+ RightEncoderPos=0;
+unsigned long value=(degree*tick360)/360;
+for(k=1;k>0;k++)
+{if(value==LeftEncoderPos)
+{
+
+digitalWrite(motor1,LOW);
+         digitalWrite(motor11, LOW);   
+     
+
+         digitalWrite(motor2,LOW); 
+         digitalWrite(motor22,LOW);  
+return;
+
+}
+else
+{
+
+digitalWrite(motor1,LOW);
+         digitalWrite(motor11, LOW);   
+     
+
+         digitalWrite(motor2,HIGH); 
+         digitalWrite(motor22,LOW);
+
+}
+
+}}
